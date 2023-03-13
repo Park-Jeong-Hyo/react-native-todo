@@ -1,3 +1,4 @@
+// 테마 컬러 적용
 const theme = {
   background: '#101010',
   itemBackground: '#313131',

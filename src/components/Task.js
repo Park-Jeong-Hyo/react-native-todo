@@ -22,17 +22,30 @@ const Contents = styled.Text`
     completed ? 'line-through' : 'none'};
 `;
 
+// 상위 컴포넌트에서 전달된 프로퍼티, 정의는 상위 컴포넌트에 되어 있고
+// 하위 컴포넌트는 그것을 받아서 쓰기만 한다.
 const Task = ({ item, deleteTask, toggleTask, updateTask }) => {
+  // 수정모드인지 아닌지 확인
   const [isEditing, setIsEditing] = useState(false);
+  // task의 글자를 설정하는 state
   const [text, setText] = useState(item.text);
+  //onPressOut을 통해서 수정모드 작동 여부를 정하는 함수
   const _handleUpdateButtonPress = () => {
     setIsEditing(true);
   };
+  // textinput의 submit버튼이 눌러졌을 때 작동하는 함수
   const _onsubmitEditing = () => {
+    //만약 수정모드면
     if (isEditing) {
+      //기존 객체를 복사한 새로운 객체를 만들고
+      //여기서 의문인 점은 왜 item을 가져왔냐 하는 점?
+      //의문이 해결되지 않음.
       const editedTask = Object.assign({}, item, { text });
+      // 수정모드를 비활성화 한 다음에
       setIsEditing(false);
+      //상위 객체에서 받아 온 프로퍼티에 새로운 객체를 집어 넣는다.
       updateTask(editedTask);
+      // 이렇게 하면 수정 완료
     }
   };
   const _onBlur = () => {
@@ -60,6 +73,7 @@ const Task = ({ item, deleteTask, toggleTask, updateTask }) => {
       {item.completed || (
         <IconButton
           type={images.update}
+          //textinput의 프로퍼티 onPressOut
           onPressOut={_handleUpdateButtonPress}
         />
       )}

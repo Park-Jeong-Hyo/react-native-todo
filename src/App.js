@@ -53,6 +53,8 @@ const App = () => {
     // 4: { id: '4', text: 'Edit TODO Item', completed: false },
   });
 
+  //aysnc는 비동기화 객체인 프로미스를 동기화 처럼 작동하게 하는 것, 함수 앞에 붙는다.
+  //await은 async가 붙어 있어야만 사용이 가능하다. 프로미스가 처리될 때 까지 기다리는 역핧을 한다.
   const _saveTasks = async tasks => {
     try {
       await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
@@ -124,8 +126,11 @@ const App = () => {
     currentTasks[id]['completed'] = !currentTasks[id]['completed'];
     _saveTasks(currentTasks);
   };
+  // item을 인수로 해서
   const _updateTask = item => {
+    //우선 새로운 객체에 기존 객체를 복사
     const currentTasks = Object.assign({}, tasks);
+    // item을 새로운 객체.id에 대입한다.
     currentTasks[item.id] = item;
     _saveTasks(currentTasks);
   };
@@ -161,6 +166,8 @@ const App = () => {
             .reverse()
             .map(item => (
               <Task
+              //하위 프로퍼티로 전달
+
                 key={item.id}
                 text={item.text}
                 item={item}
